@@ -2,10 +2,10 @@ version: 1.0.{build}
 image: Windows Server 2016
 
 environment:
-  DOCKER_USER:
-    secure: LjNiW/ZWrfVIJn3Mc9foeg==
+  DOCKER_USER: victors2
   DOCKER_PASS:
-    secure: 4gsl5WiqIztEWhL5fuhp9X0qT/mKg9fYzKYUUPf5WStIuNddv0fvIKGmvvyuFzzd
+    secure: kgpRGG5woa2ZoXDFtIF+8w==
+    
 install:
   - docker version
   # the official way to update to Docker 1.13.1 CS
@@ -19,6 +19,7 @@ install:
       Expand-Archive $env:TEMP\docker-1.13.1.zip -DestinationPath $env:ProgramFiles -Force;
       Start-Service docker
   - docker version
+  - ps: docker login -u="$env:DOCKER_USER" -p="$env:DOCKER_PASS"
 
 build_script:
   - ps: .\build.ps1
