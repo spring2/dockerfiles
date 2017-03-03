@@ -33,5 +33,5 @@ $build="1"
 invoke-exe -cmd docker -args "build -t spring2/${image}:$build ."
 invoke-exe -cmd docker -args "tag spring2/${image}:$build spring2/${image}:latest"
 
-#invoke-exe -cmd docker -args "push spring2/${image}:$build"
-#invoke-exe -cmd docker -args "push spring2/${image}:latest"
+invoke-exe -cmd docker -args "push spring2/${image}:$build"
+invoke-exe -cmd docker -args "push spring2/${image}:latest"
