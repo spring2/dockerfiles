@@ -28,7 +28,7 @@ Param(
 }
 
 $image="rabbitmq"
-$build="3.6.5"
+$build="3.6.10"
 
 invoke-exe -cmd docker -args "build -t spring2/${image}:$build ."
 invoke-exe -cmd docker -args "tag spring2/${image}:$build spring2/${image}:latest"
