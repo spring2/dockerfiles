@@ -2,23 +2,24 @@ version: 1.0.{build}
 image: Visual Studio 2017
 
 environment:
-  DOCKER_USER: victors2
+  DOCKER_USER: corts    
   DOCKER_PASS:
-    secure: kgpRGG5woa2ZoXDFtIF+8w==
+    secure: aJxs6RpEgV8wpv8oseMsQA==
     
 install:
   - docker version
-  # the official way to update to Docker 1.13.1 CS
-  # - ps: Install-Package -Name docker -ProviderName DockerMsftProvider -Verbose -Update -Force
-  # - ps: Start-Service docker
-  # the faster way to update to Docker 1.13.1 CS
   - ps: >-
       $ProgressPreference = 'SilentlyContinue';
-      Invoke-WebRequest -Outfile $env:TEMP\docker-1.13.1.zip https://dockermsft.blob.core.windows.net/dockercontainer/docker-1-13-1.zip -UseBasicParsing;
-      Stop-Service docker;
-      Expand-Archive $env:TEMP\docker-1.13.1.zip -DestinationPath $env:ProgramFiles -Force;
-      Start-Service docker
+      $DOCKER_COMPOSE_VERSION="1.14.0";
+      $DOCKER_VERSION="17.05.0-ce";
+
+      if (test-path $env:TEMP\docker.zip) {rm $env:TEMP\docker.zip};
+      Invoke-WebRequest "https://get.docker.com/builds/Windows/x86_64/docker-${DOCKER_VERSION}.zip" -OutFile "$env:TEMP\docker.zip" -UseBasicParsing;
+      stop-service docker;
+      if (test-path $env:TEMP\docker.zip) {Expand-Archive -Path "$env:TEMP\docker.zip" -DestinationPath $env:ProgramFiles -Force};
+      start-service docker;
   - docker version
+  - docker-compose version
   - ps: docker login -u="$env:DOCKER_USER" -p="$env:DOCKER_PASS"
 
 build_script:
