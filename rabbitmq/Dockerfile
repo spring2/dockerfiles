@@ -24,4 +24,4 @@ EXPOSE 5671
 EXPOSE 15672
 
 WORKDIR C:/Program\ Files/RabbitMQ\ Server/rabbitmq_server-3.6.10/sbin
-CMD .\rabbitmq-server.bat
+CMD for($i=1; $i -le 60; $i++) { .\rabbitmq-server.bat; Start-Sleep -s 1; }
