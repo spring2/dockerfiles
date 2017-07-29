@@ -7,19 +7,7 @@ environment:
     secure: aJxs6RpEgV8wpv8oseMsQA==
     
 install:
-  - docker version
-  - ps: >-
-      $ProgressPreference = 'SilentlyContinue';
-      $DOCKER_COMPOSE_VERSION="1.14.0";
-      $DOCKER_VERSION="17.05.0-ce";
-
-      if (test-path $env:TEMP\docker.zip) {rm $env:TEMP\docker.zip};
-      Invoke-WebRequest "https://get.docker.com/builds/Windows/x86_64/docker-${DOCKER_VERSION}.zip" -OutFile "$env:TEMP\docker.zip" -UseBasicParsing;
-      stop-service docker;
-      if (test-path $env:TEMP\docker.zip) {Expand-Archive -Path "$env:TEMP\docker.zip" -DestinationPath $env:ProgramFiles -Force};
-      start-service docker;
-  - docker version
-  - docker-compose version
+  - ps: .\update-docker-ce.ps1
   - ps: docker login -u="$env:DOCKER_USER" -p="$env:DOCKER_PASS"
 
 build_script:
