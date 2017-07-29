@@ -1,6 +1,6 @@
-$build="0.7.5"
-docker build -t spring2/consul:$build .
-docker tag spring2/consul:$build spring2/consul:latest
+. .\version.ps1
 
-docker push spring2/consul:$build
-docker push spring2/consul:latest
+Write-Host "Building spring2/${image}:${version}"
+
+docker build --build-arg VERSION=${version} -t spring2/${image}:latest -f Dockerfile .
+docker tag spring2/${image}:latest spring2/${image}:${version}
