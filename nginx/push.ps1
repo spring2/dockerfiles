@@ -3,7 +3,7 @@
 function Push {
 param
 (
-    [string] $version
+    [string] $version,
     [string] $suffix = ""
 )
 
