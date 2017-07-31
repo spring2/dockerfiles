@@ -15,5 +15,6 @@ param
 	docker push spring2/${image}:${latest}
 }
 
-Push -version $version
+Push -version $stable_version
+Push -version $mainline_version
 Push -version $nano_version -suffix "-nanoserver"

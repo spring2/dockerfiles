@@ -15,5 +15,6 @@ param
 	docker tag spring2/${image}:$latest spring2/${image}:${v}
 }
 
-Build -version $version
+Build -version $stable_version
+Build -version $mainline_version
 Build -version $nano_version -dockerfile "Dockerfile.nanoserver" -suffix "-nanoserver"
