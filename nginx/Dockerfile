@@ -1,6 +1,7 @@
 #https://github.com/mbentley/docker-windows-containers-examples
 FROM microsoft/windowsservercore:latest
-ENV NGINX_VERSION 1.13.0
+ARG VERSION
+ENV NGINX_VERSION $VERSION
 
 RUN mkdir c:\build\nginx\source &&\
   powershell -Command "invoke-WebRequest -uri ('http://nginx.org/download/nginx-{0}.zip' -f $env:NGINX_VERSION) -OutFile 'c:\nginx.zip' -UseBasicParsing" &&\
