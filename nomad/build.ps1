@@ -1,6 +1,6 @@
-$build="0.5.5-rc2"
-docker build -t spring2/nomad:$build .
-docker tag spring2/nomad:$build spring2/nomad:latest
+. .\version.ps1
 
-docker push spring2/nomad:$build
-docker push spring2/nomad:latest
+Write-Host "Building spring2/${image}:${version}"
+
+docker build --build-arg VERSION=${version} -t spring2/${image}:latest -f Dockerfile .
+docker tag spring2/${image}:latest spring2/${image}:${version}
