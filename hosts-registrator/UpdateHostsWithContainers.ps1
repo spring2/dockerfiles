@@ -56,7 +56,9 @@ while ($true) {
 				$i++
 			}
 
-			if ($original -ne "" -and $original -ne $newhosts) {
+			if ($original -eq "") {
+				"original appears to be empty, not writting in case of unhandled error" | timestamp
+			} elseif ($original -ne $newhosts) {
 				"Updating with $i containers" | timestamp
 				set-content -path $hostsfile -value $newhosts.trim()
 			} else {
