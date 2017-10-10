@@ -54,8 +54,10 @@ while ($true) {
 			}
 			
 			if ($hosts -ne $newhosts) {
-				$hosts
-				$newhosts
+				"original"
+				"$hosts"
+				"new"
+				"$newhosts"
 				"Updating with $i containers" | timestamp
 				set-content -path $hostsfile -value $newhosts
 			} else {
