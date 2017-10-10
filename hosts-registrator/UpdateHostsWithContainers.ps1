@@ -38,25 +38,34 @@ if (test-path $hostsfile) {
 }
 
 while ($true) {
-	$hosts = Get-Content $hostsfile
-	$newhosts = ""
-	$hosts | Where-Object {$_ -notmatch '.docker'} | % { if ($_ -ne "") {$newhosts = "${newhosts}$_`r`n"} }
+	if (test-path $hostsfile) {
+		try {
+			$hosts = Get-Content $hostsfile -ErrorAction Stop
+			$newhosts = ""
+			$hosts | Where-Object {$_ -notmatch '.docker'} | % { if ($_ -ne "") {$newhosts = "${newhosts}$_`r`n"} }
 
-	$i=0
-	./docker.exe ps -q | % { 
-		$servicename=$(./docker.exe inspect --format '{{ .Name }}' $_ ).Substring(1)
-		$ipaddress=$(./docker.exe inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $_)
+			$i=0
+			./docker.exe ps -q | % { 
+				$servicename=$(./docker.exe inspect --format '{{ .Name }}' $_ ).Substring(1)
+				$ipaddress=$(./docker.exe inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $_)
 
-		$newhosts += "${ipaddress}`t${servicename}.docker`r`n"
-		$i++
-	}
-	
-	if ($hosts -ne $newhosts) {
-		"Updating with $i containers" | timestamp
-		set-content -path $hostsfile -value $newhosts
+				$newhosts += "${ipaddress}`t${servicename}.docker`r`n"
+				$i++
+			}
+			
+			if ($hosts -ne $newhosts) {
+				$hosts
+				$newhosts
+				"Updating with $i containers" | timestamp
+				set-content -path $hostsfile -value $newhosts
+			} else {
+				"no changes" | timestamp
+			}
+		} catch {
+		}
 	} else {
-		"no changes" | timestamp
+		"ERROR: $hostsfile not found" | timestamp
 	}
-
+		
 	sleep -seconds 30
 }
